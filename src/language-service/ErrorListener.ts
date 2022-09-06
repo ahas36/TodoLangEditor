@@ -1,7 +1,7 @@
 import { ANTLRErrorListener, RecognitionException, Recognizer } from "antlr4ts";
 
 
-export interface ITodoLangError {
+export interface IError {
     startLineNumber: number;
     startColumn: number;
     endLineNumber: number;
@@ -10,10 +10,9 @@ export interface ITodoLangError {
     code: string;
 }
 
-export default class TodoLangErrorListener implements ANTLRErrorListener<any>{
-    private errors: ITodoLangError[] = []
+export default class ErrorListener implements ANTLRErrorListener<any>{
+    private errors: IError[] = []
     syntaxError(recognizer: Recognizer<any, any>, offendingSymbol: any, line: number, charPositionInLine: number, message: string, e: RecognitionException | undefined): void {
-        
         this.errors.push(
             {
                 startLineNumber:line,
@@ -26,7 +25,7 @@ export default class TodoLangErrorListener implements ANTLRErrorListener<any>{
         )
     }
 
-    getErrors(): ITodoLangError[] {
+    getErrors(): IError[] {
         return this.errors;
     }
 }

@@ -7,39 +7,46 @@ export const richLanguageConfiguration: IRichLanguageConfiguration = {
     // check the doc
 };
 
-export const monarchLanguage = <ILanguage>{
-    // Set defaultToken to invalid to see what you do not tokenize yet
-    defaultToken: 'invalid',
-    keywords: [
-        'COMPLETE', 'ADD',
-    ],
-    typeKeywords: ['TODO'],
-    escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
-    // The main tokenizer for our languages
-    tokenizer: {
-        root: [
-            // identifiers and keywords
-            [/[a-zA-Z_$][\w$]*/, {
-                cases: {
-                    '@keywords': { token: 'keyword' },
-                    '@typeKeywords': { token: 'type' },
-                    '@default': 'identifier'
-                }
-            }],
-            // whitespace
-            { include: '@whitespace' },
-            // strings for todos
-            [/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
-            [/"/, 'string', '@string'],
+export const monarchLanguage =  (parameters:string[]) => 
+{
+    return <ILanguage>{
+        // Set defaultToken to invalid to see what you do not tokenize yet
+        defaultToken: 'invalid',
+        keywords: [
+            'v1','v2','v3','v4'
         ],
-        whitespace: [
-			[/[ \t\r\n]+/, ''],
-		],
-        string: [
-            [/[^\\"]+/, 'string'],
-            [/@escapes/, 'string.escape'],
-            [/\\./, 'string.escape.invalid'],
-            [/"/, 'string', '@pop']
-        ]
-    },
+        typeKeywords: ['avg', 'sum', 'min', 'max',],
+        escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+        // The main tokenizer for our languages
+        tokenizer: {
+            root: [
+                // identifiers and keywords
+                [/[a-zA-Z_$][\w$]*/i, {
+                    cases: {
+                        '@keywords': { token: 'keyword' },
+                        '@typeKeywords': { token: 'type' },
+                        '@default': 'identifier'
+                    }
+                }],
+                // whitespace
+                { include: '@whitespace' },
+                // strings for todos
+                [/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+                [/"/, 'string', '@string'],
+            ],
+            whitespace: [
+                [/[ \t\r\n]+/, ''],
+            ],
+            string: [
+                [/[^\\"]+/, 'string'],
+                [/@escapes/, 'string.escape'],
+                [/\\./, 'string.escape.invalid'],
+                [/"/, 'string', '@pop']
+            ],
+            number: [
+                [/\d+"]+/, 'number'],
+                [/\d+.\d+/, 'string.double'],
+            ]
+        },
+    }
 }

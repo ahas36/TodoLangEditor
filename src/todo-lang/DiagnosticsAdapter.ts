@@ -1,7 +1,7 @@
 import * as monaco from "monaco-editor-core";
 import { WorkerAccessor } from "./setup";
 import { languageID } from "./config";
-import { ITodoLangError } from "../language-service/TodoLangErrorListener";
+import { IError } from "../language-service/ErrorListener";
 
 export default class DiagnosticsAdapter {
     constructor(private worker: WorkerAccessor) {
@@ -31,7 +31,7 @@ export default class DiagnosticsAdapter {
 
     }
 }
-function toDiagnostics(error: ITodoLangError): monaco.editor.IMarkerData {
+function toDiagnostics(error: IError): monaco.editor.IMarkerData {
     return {
         ...error,
         severity: monaco.MarkerSeverity.Error,

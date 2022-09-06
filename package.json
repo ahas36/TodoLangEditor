@@ -4,7 +4,8 @@
   "description": "TodoLang editor",
   "scripts": {
     "start": "webpack-dev-server --hot --open",
-    "antlr4ts": "antlr4ts ./TodoLangGrammar.g4 -o ./src/ANTLR"
+    "build": "webpack",
+    "antlr4ts": "antlr4ts ./ExpressionGrammar.g4 -o ./src/ANTLR"
   },
   "author": "Open",
   "license": "ISC",

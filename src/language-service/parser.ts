@@ -1,27 +1,27 @@
-import { TodoLangGrammarParser, TodoExpressionsContext } from "../ANTLR/TodoLangGrammarParser";
-import { TodoLangGrammarLexer } from "../ANTLR/TodoLangGrammarLexer";
+import { ExpressionGrammarParser, ExpressionContext } from "../ANTLR/ExpressionGrammarParser";
+import { ExpressionGrammarLexer } from "../ANTLR/ExpressionGrammarLexer";
 import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
-import TodoLangErrorListener, { ITodoLangError } from "./TodoLangErrorListener";
+import ErrorListener, { IError } from "./ErrorListener";
 
-function parse(code: string): {ast:TodoExpressionsContext, errors: ITodoLangError[]} {
+export function parse(code: string): {ast:ExpressionContext, errors: IError[]} {
     const inputStream = new ANTLRInputStream(code);
-    const lexer = new TodoLangGrammarLexer(inputStream);
+    const lexer = new ExpressionGrammarLexer(inputStream);
     lexer.removeErrorListeners()
-    const todoLangErrorsListner = new TodoLangErrorListener();
-    lexer.addErrorListener(todoLangErrorsListner);
+    const ErrorsListner = new ErrorListener();
+    lexer.addErrorListener(ErrorsListner);
     const tokenStream = new CommonTokenStream(lexer);
-    const parser = new TodoLangGrammarParser(tokenStream);
+    const parser = new ExpressionGrammarParser(tokenStream);
     parser.removeErrorListeners();
-    parser.addErrorListener(todoLangErrorsListner);
-    const ast =  parser.todoExpressions();
-    const errors: ITodoLangError[]  = todoLangErrorsListner.getErrors();
+    parser.addErrorListener(ErrorsListner);
+    const ast =  parser.expression();
+    const errors: IError[]  = ErrorsListner.getErrors();
     return {ast, errors};
 }
-export function parseAndGetASTRoot(code: string): TodoExpressionsContext {
+export function parseAndGetASTRoot(code: string): ExpressionContext {
     const {ast} = parse(code);
     return ast;
 }
-export function parseAndGetSyntaxErrors(code: string): ITodoLangError[] {
+export function parseAndGetSyntaxErrors(code: string): IError[] {
     const {errors} = parse(code);
     return errors;
 }

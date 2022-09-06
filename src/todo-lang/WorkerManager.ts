@@ -32,9 +32,10 @@ export class WorkerManager {
 		return this.workerClientProxy;
 	}
 
-	async getLanguageServiceWorker(...resources: Uri[]): Promise<TodoLangWorker> {
+	async getLanguageServiceWorker(parameters:string[],...resources: Uri[]): Promise<TodoLangWorker> {
 		const _client: TodoLangWorker = await this.getClientproxy();
-		await this.worker.withSyncedResources(resources)
+		await this.worker.withSyncedResources(resources);
+		(await this.worker.getProxy()).setParameter(parameters);
 		return _client;
 	}
 }
